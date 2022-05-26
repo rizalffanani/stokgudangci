@@ -1,0 +1,154 @@
+<?php
+
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
+
+class T_barang extends CI_Controller
+{
+    function __construct()
+    {
+        parent::__construct();
+        $this->load->model('T_barang_model');
+        $this->load->library('form_validation');        
+	$this->load->library('datatables');
+    }
+
+    public function index()
+    {
+        $data = array('title' => 'Barang');
+        $this->template->load('template','admin/t_barang/t_barang_list', $data);
+    } 
+    
+    public function json() {
+        header('Content-Type: application/json');
+        echo $this->T_barang_model->json();
+    }
+
+    public function read($id) 
+    {
+        $row = $this->T_barang_model->get_by_id($id);
+        if ($row) {
+            $data = array(
+                'title' => 'Read',
+		'id_barang' => $row->id_barang,
+		'nama_barang' => $row->nama_barang,
+		'kategori' => $row->kategori,
+		'harga' => $row->harga,
+		'stok' => $row->stok,
+	    );
+            $this->template->load('template','admin/t_barang/t_barang_read', $data);
+        } else {
+            $this->session->set_flashdata('message', 'Record Not Found');
+            redirect(site_url('admin/t_barang'));
+        }
+    }
+
+    public function create() 
+    {
+        $data = array(
+            'title' => 'Create',
+            'button' => 'Create',
+            'action' => site_url('admin/t_barang/create_action'),
+	    'id_barang' => set_value('id_barang'),
+	    'nama_barang' => set_value('nama_barang'),
+	    'kategori' => set_value('kategori'),
+	    'harga' => set_value('harga'),
+	    'stok' => set_value('stok'),
+	);
+        $this->template->load('template','admin/t_barang/t_barang_form', $data);
+    }
+    
+    public function create_action() 
+    {
+        $this->_rules();
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->create();
+        } else {
+            $data = array(
+		'nama_barang' => $this->input->post('nama_barang',TRUE),
+		'kategori' => $this->input->post('kategori',TRUE),
+		'harga' => $this->input->post('harga',TRUE),
+		'stok' => $this->input->post('stok',TRUE),
+	    );
+
+            $this->T_barang_model->insert($data);
+            $this->session->set_flashdata('message', 'Create Record Success');
+            redirect(site_url('admin/t_barang'));
+        }
+    }
+    
+    public function update($id) 
+    {
+        $row = $this->T_barang_model->get_by_id($id);
+
+        if ($row) {
+            $data = array(
+                'title' => 'Update',
+                'button' => 'Update',
+                'action' => site_url('admin/t_barang/update_action'),
+		'id_barang' => set_value('id_barang', $row->id_barang),
+		'nama_barang' => set_value('nama_barang', $row->nama_barang),
+		'kategori' => set_value('kategori', $row->kategori),
+		'harga' => set_value('harga', $row->harga),
+		'stok' => set_value('stok', $row->stok),
+	    );
+            $this->template->load('template','admin/t_barang/t_barang_form', $data);
+        } else {
+            $this->session->set_flashdata('message', 'Record Not Found');
+            redirect(site_url('admin/t_barang'));
+        }
+    }
+    
+    public function update_action() 
+    {
+        $this->_rules();
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->update($this->input->post('id_barang', TRUE));
+        } else {
+            $data = array(
+		'nama_barang' => $this->input->post('nama_barang',TRUE),
+		'kategori' => $this->input->post('kategori',TRUE),
+		'harga' => $this->input->post('harga',TRUE),
+		'stok' => $this->input->post('stok',TRUE),
+	    );
+
+            $this->T_barang_model->update($this->input->post('id_barang', TRUE), $data);
+            $this->session->set_flashdata('message', 'Update Record Success');
+            redirect(site_url('admin/t_barang'));
+        }
+    }
+    
+    public function delete($id) 
+    {
+        $row = $this->T_barang_model->get_by_id($id);
+
+        if ($row) {
+            $this->T_barang_model->delete($id);
+            $this->session->set_flashdata('message', 'Delete Record Success');
+            redirect(site_url('admin/t_barang'));
+        } else {
+            $this->session->set_flashdata('message', 'Record Not Found');
+            redirect(site_url('admin/t_barang'));
+        }
+    }
+
+    public function _rules() 
+    {
+	$this->form_validation->set_rules('nama_barang', 'nama barang', 'trim|required');
+	$this->form_validation->set_rules('kategori', 'kategori', 'trim|required');
+	$this->form_validation->set_rules('harga', 'harga', 'trim|required');
+	$this->form_validation->set_rules('stok', 'stok', 'trim|required');
+
+	$this->form_validation->set_rules('id_barang', 'id_barang', 'trim');
+	$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
+    }
+
+}
+
+/* End of file T_barang.php */
+/* Location: ./application/controllers/T_barang.php */
+/* Please DO NOT modify this information : */
+/* Generated by Harviacode Codeigniter CRUD Generator 2022-05-16 15:13:07 */
+/* http://harviacode.com */
