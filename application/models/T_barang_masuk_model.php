@@ -32,6 +32,17 @@ class T_barang_masuk_model extends CI_Model
         return $this->db->get($this->table)->result();
     }
 
+    // get all join
+    function get_all_join()
+    {
+        $this->db->select('t_barang_masuk.id_bm,tgl_bm,id_barang,nama_barang,jml_bm,harga_bm,sub_total_bm,t_supplier.nama_sup');
+        $this->db->from($this->table);
+        //add this line for join
+        $this->db->join('t_supplier', 't_barang_masuk.id_supplier = t_supplier.id_supplier');
+        $this->db->order_by($this->id, $this->order);
+        return $this->db->get()->result();
+    }
+
     // get data by id
     function get_by_id($id)
     {
