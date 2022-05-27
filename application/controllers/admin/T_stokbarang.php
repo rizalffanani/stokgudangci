@@ -24,12 +24,20 @@ class T_stokbarang extends CI_Controller
         echo $this->T_barang_model->json();
     }
 
-    public function cetak($in){
+    public function view($in=""){
+        $row = $this->T_barang_model->get_all();
+        if (@$row) {
+            $data = array('data' => $row);
+            $this->load->view('admin/t_barang/t_barang_cetak',$data);
+        }
+    }
+
+    public function cetak($in=""){
         $row = $this->T_barang_model->get_all();
         if (@$row) {
             $mpdf = new \Mpdf\Mpdf();
             $data = array('data' => $row);
-            $html = $this->load->view('admin/tbl_rekap_dtl/cetak',$data,true);
+            $html = $this->load->view('admin/t_barang/t_barang_cetak',$data,true);
             $mpdf->AddPage('L', // L - landscape, P - portrait
             '', '', '', '',
             10, // margin_left
@@ -39,9 +47,9 @@ class T_stokbarang extends CI_Controller
             18, // margin header
             12); // margin footer
             $mpdf->WriteHTML($html);
-            $mpdf->Output('rekapfile_'.$in.'_t_'.date('y_m_d_H_i_s').'.pdf', 'I');
+            $mpdf->Output(date('ymd_His').'stok_barang'.$in.'_t_'.'.pdf', 'I');
         } 
-        redirect(site_url('admin/tbl_rekap_dtl/index/'.$in));
+        redirect(site_url('admin/t_stokbarang/index/'.$in));
     }
 
 }
