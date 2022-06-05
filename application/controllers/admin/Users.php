@@ -233,7 +233,7 @@ class Users extends CI_Controller
             $data = array(
                 'button' => 'Update',
                 'title' => 'Update Password',
-                'action' => site_url('users/update_Password'),
+                'action' => site_url('admin/users/update_password'),
                 'id' => set_value('id', $row->username),
             );
             $this->template->load('template','admin/user/users_pass', $data);

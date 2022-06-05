@@ -19,7 +19,7 @@
         </div>
         <div class="box-footer">
             <input type="hidden" name="id" value="<?php echo $id; ?>" /> 
-            <a href="<?php echo site_url('users') ?>" class="btn btn-default">Cancel</a>
+            <a href="<?php echo site_url('admin/users') ?>" class="btn btn-default">Cancel</a>
             <button type="submit" class="btn btn-primary pull-right"><?php echo $button ?></button>       
         </div>
     </form>

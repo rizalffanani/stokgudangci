@@ -16,6 +16,8 @@
   <!-- Select2 -->
   <link rel="stylesheet" href="<?php  echo (base_url());?>assets/backend/plugins/select2/css/select2.min.css">
   <link rel="stylesheet" href="<?php  echo (base_url());?>assets/backend/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+  <!-- daterange picker -->
+  <link rel="stylesheet" href="<?php  echo (base_url());?>assets/backend/plugins/daterangepicker/daterangepicker.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="<?php  echo (base_url());?>assets/backend/dist/css/adminlte.min.css">
   <!-- Google Font: Source Sans Pro -->
@@ -59,7 +61,7 @@
             <!-- Message End -->
           </a>
           <div class="dropdown-divider"></div>
-          <a href="<?php echo site_url('users/update_pass') ?>" class="dropdown-item">
+          <a href="<?php echo site_url('admin/users/update_pass') ?>" class="dropdown-item">
             <button type="button" class="btn btn-block btn-primary btn-xs">Ganti Password</button>
           </a>
           <div class="dropdown-divider"></div>
@@ -198,6 +200,9 @@
 <script src="<?php  echo (base_url());?>assets/backend/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 <!-- Select2 -->
 <script src="<?php  echo (base_url());?>assets/backend/plugins/select2/js/select2.full.min.js"></script>
+<!-- date-range-picker -->
+<script src="<?php  echo (base_url());?>assets/backend/plugins/moment/moment.min.js"></script>
+<script src="<?php  echo (base_url());?>assets/backend/plugins/daterangepicker/daterangepicker.js"></script>
 <!-- AdminLTE App -->
 <script src="<?php  echo (base_url());?>assets/backend/dist/js/adminlte.min.js"></script>
 <script>
@@ -209,6 +214,8 @@
         $('.select2bs4').select2({
           theme: 'bootstrap4'
         })
+        //Date range picker
+        $('#reservation').daterangepicker()
     })  
 </script>
 </body>
